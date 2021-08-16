@@ -1,42 +1,62 @@
 import Vue from 'vue'
-import VueRouter from 'vue-router'
+import Vuerouter from 'vue-router'
 
-const Home = () => import('views/home/Home')
-const Category = () => import('views/category/Category')
-const Cart = () => import('views/cart/Cart')
-const Profile = () => import('views/profile/Profile')
-const Detail = () => import('views/detail/Detail')
+const Home = () => import('../views/home/Home')
+const Category = () => import('../views/category/Category')
+const Cart = () => import('../views/cart/Cart')
+const Profile = () => import('../views/profile/Profile')
+const Detail = () => import('../views/detail/Detail')
 
-Vue.use(VueRouter)
+//1.安装插件
+Vue.use(Vuerouter)
 
-const router = new VueRouter({
-  routes: [
-    {
-      path: '/',
-      redirect: '/home'
+//2.创建router
+const routes =[
+  {
+    path:'/',
+    //redirect重定向
+    redirect:'/home'
+  },
+  {
+    path:'/home',
+    component:Home,
+    //元数据(描述数据的数据)
+    meta:{
+      title:'首页'
     },
-    {
-      path: '/home',
-      component: Home
+  },
+  {
+    path:'/category',
+    component:Category,
+    meta:{
+      title:'关于'
     },
-    {
-      path: '/category',
-      component: Category
+  },
+  {
+    path:'/cart',
+    component:Cart,
+    meta:{
+      title:'用户'
     },
-    {
-      path: '/cart',
-      component: Cart
+  },
+  {
+    path:'/profile',
+    component:Profile,
+    meta:{
+      title:'档案'
     },
-    {
-      path: '/profile',
-      component: Profile
-    },
-    {
-      path: '/detail',
-      component: Detail
-    }
-  ],
-  mode: 'history'
+  },
+  {
+    path:'/detail',
+    component:Detail,
+  },
+
+]
+
+const router = new Vuerouter({
+  routes,
+  mode:'history'
 })
 
+//3.导出
 export default router

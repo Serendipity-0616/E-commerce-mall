@@ -45,15 +45,15 @@
   export default {
     name: "Detail",
     components: {
-	    DetailParamInfo,
-    	DetailNavBar,
+      DetailParamInfo,
+      DetailNavBar,
       DetailSwiper,
       DetailBaseInfo,
-	    DetailShopInfo,
+      DetailShopInfo,
       DetailGoodsInfo,
       DetailCommentInfo,
       CartButton,
-	    GoodsList,
+      GoodsList,
       DetailBottomBar,
       Scroll,
       Toast
@@ -61,11 +61,11 @@
     mixins: [backTopMixin],
     data() {
       return {
-      	iid: '',
+        iid: '',
         topImages: [],
         goods: {},
         shop: {},
-	      detailInfo: {},
+        detailInfo: {},
         paramInfo: {},
         commentInfo: {},
         goodsList: [],
@@ -74,7 +74,7 @@
       }
     },
     created() {
-    	// 1.取出iid
+      // 1.取出iid
       this.iid = this.$route.query.iid
 
       // 2.发送商品请求
@@ -87,8 +87,8 @@
       ...mapActions({
         addCart: 'addToCart'
       }),
-	    imageLoad() {
-	    	this.$refs.scroll.refresh()
+      imageLoad() {
+        this.$refs.scroll.refresh()
         // 获取对应的offsetTop
         this.themeTops = []
         this.themeTops.push(0)
@@ -96,45 +96,45 @@
         this.themeTops.push(this.$refs.comment.$el.offsetTop)
         this.themeTops.push(this.$refs.recommend.$el.offsetTop)
         this.themeTops.push(Number.MAX_VALUE)
-	    },
-	    selectIndex(index) {
-		    this.$refs.scroll.scrollTo(0, -this.themeTops[index], 500)
-	    },
-	    contentScroll(position) {
-	    	// 决定backTop按钮是否显示
-		    this.showBackTop = position.y <= -1000
-	    	// 监听滚动到某个主题
+      },
+      selectIndex(index) {
+        this.$refs.scroll.scrollTo(0, -this.themeTops[index], 500)
+      },
+      contentScroll(position) {
+        // 决定backTop按钮是否显示
+        this.showBackTop = position.y <= -1000
+        // 监听滚动到某个主题
         this._listenScrollTheme(-position.y)
-	    },
+      },
       _listenScrollTheme(position) {
-	      let length = this.themeTops.length;
-	      for (let i = 0; i < length; i++) {
-		      let iPos = this.themeTops[i];
-		      /**
-		       * 判断的方案:
-		       *  方案一:
-		       *    条件: (i < (length-1) && currentPos >= iPos && currentPos < this.themeTops[i+1]) || (i === (length-1) && currentPos >= iPos),
-		       *    优点: 不需要引入其他的内容, 通过逻辑解决
-		       *    缺点: 判断条件过长, 并且不容易理解
-		       *  方案二:
-		       *    条件: 给themeTops最后添加一个很大的值, 用于和最后一个主题的top进行比较.
-		       *    优点: 简洁明了, 便于理解
-		       *    缺点: 需要引入一个较大的int数字
-		       * 疑惑: 在第一个判断中, 为什么不能直接判断(currentPos >= iPos)即可?
-		       * 解答: 比如在某一个currentPos大于第0个时, 就会break, 不会判断后面的i了.
-		       */
-		      if (position >= iPos && position < this.themeTops[i+1]) {
-			      if (this.currentIndex !== i) {
-				      this.currentIndex = i;
-			      }
-			      break;
-		      }
-	      }
+        let length = this.themeTops.length;
+        for (let i = 0; i < length; i++) {
+          let iPos = this.themeTops[i];
+          /**
+           * 判断的方案:
+           *  方案一:
+           *    条件: (i < (length-1) && currentPos >= iPos && currentPos < this.themeTops[i+1]) || (i === (length-1) && currentPos >= iPos),
+           *    优点: 不需要引入其他的内容, 通过逻辑解决
+           *    缺点: 判断条件过长, 并且不容易理解
+           *  方案二:
+           *    条件: 给themeTops最后添加一个很大的值, 用于和最后一个主题的top进行比较.
+           *    优点: 简洁明了, 便于理解
+           *    缺点: 需要引入一个较大的int数字
+           * 疑惑: 在第一个判断中, 为什么不能直接判断(currentPos >= iPos)即可?
+           * 解答: 比如在某一个currentPos大于第0个时, 就会break, 不会判断后面的i了.
+           */
+          if (position >= iPos && position < this.themeTops[i+1]) {
+            if (this.currentIndex !== i) {
+              this.currentIndex = i;
+            }
+            break;
+          }
+        }
       },
-	    cartClick() {
-	    	this.$router.push('/cart')
+      cartClick() {
+        this.$router.push('/cart')
       },
-	    addToCart() {
+      addToCart() {
         // 2.将商品信息添加到Store中
         const obj = {}
         obj.iid = this.iid
@@ -143,19 +143,19 @@
         obj.desc = this.goods.desc
         obj.price = this.goods.realPrice
         // this.$store.dispatch('addToCart', obj).then(() => {
-	       //  this.$toast({message: '加入购物车成功'})
+        //  this.$toast({message: '加入购物车成功'})
         // })
         this.addCart(obj).then(() => {
-	        this.$toast({message: '加入购物车成功'})
+          this.$toast({message: '加入购物车成功'})
         })
-	    },
-    	_getDetail(iid) {
+      },
+      _getDetail(iid) {
         getDetail(iid).then(res => {
-        	// 1.获取数据
+          // 1.获取数据
           const data = res.result
-	        console.log(data);
+          console.log(data);
 
-	        // 2.获取顶部的图片数据
+          // 2.获取顶部的图片数据
           this.topImages = data.itemInfo.topImages
 
           // 3.获取商品信息
@@ -171,15 +171,15 @@
           this.paramInfo = new GoodsParam(data.itemParams.info, data.itemParams.rule)
 
           // 7.保存评论数据
-	        if (data.rate.list) {
-		        this.commentInfo = data.rate.list[0];
-	        }
+          if (data.rate.list) {
+            this.commentInfo = data.rate.list[0];
+          }
         })
       },
-	    _getRecommend() {
-	    	getRecommend().then(res => {
-	    		this.goodsList = res.data.list
-		    })
+      _getRecommend() {
+        getRecommend().then(res => {
+          this.goodsList = res.data.list
+        })
       }
     }
   }

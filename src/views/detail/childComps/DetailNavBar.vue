@@ -64,6 +64,6 @@
   }
 
   .title-item.active {
-    color: var(--color-high-text)
+    color: var(--color-high-text);
   }
 </style>

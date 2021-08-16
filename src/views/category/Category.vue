@@ -35,9 +35,9 @@
   import {tabControlMixin} from "@/common/mixin";
 
   export default {
-		name: "Category",
+    name: "Category",
     components: {
-		  NavBar,
+      NavBar,
       TabMenu,
       TabControl,
       Scroll,
@@ -46,39 +46,39 @@
     },
     mixins: [tabControlMixin],
     data() {
-		  return {
-		    categories: [],
+      return {
+        categories: [],
         categoryData: {
         },
         currentIndex: -1
       }
     },
     created() {
-		  // 1.请求分类数据
+      // 1.请求分类数据
       this._getCategory()
 
       // 2.监听图片加载完成
-	    this.$bus.$on('imgLoad', () => {
-		    this.$refs.scroll.refresh()
-	    })
+      this.$bus.$on('imgLoad', () => {
+        this.$refs.scroll.refresh()
+      })
     },
     computed: {
-		  showSubcategory() {
-		    if (this.currentIndex === -1) return {}
+      showSubcategory() {
+        if (this.currentIndex === -1) return {}
         return this.categoryData[this.currentIndex].subcategories
       },
       showCategoryDetail() {
-		    if (this.currentIndex === -1) return []
-		    return this.categoryData[this.currentIndex].categoryDetail[this.currentType]
+        if (this.currentIndex === -1) return []
+        return this.categoryData[this.currentIndex].categoryDetail[this.currentType]
       }
     },
     methods: {
-		  _getCategory() {
-		    getCategory().then(res => {
-		      // 1.获取分类数据
-		      this.categories = res.data.category.list
-			    console.log(res);
-			    // 2.初始化每个类别的子数据
+      _getCategory() {
+        getCategory().then(res => {
+          // 1.获取分类数据
+          this.categories = res.data.category.list
+          console.log(res);
+          // 2.初始化每个类别的子数据
           for (let i = 0; i < this.categories.length; i++) {
             this.categoryData[i] = {
               subcategories: {},
@@ -95,7 +95,7 @@
       },
       _getSubcategories(index) {
         this.currentIndex = index;
-		    const mailKey = this.categories[index].maitKey;
+        const mailKey = this.categories[index].maitKey;
         getSubcategory(mailKey).then(res => {
           this.categoryData[index].subcategories = res.data
           this.categoryData = {...this.categoryData}
@@ -105,12 +105,12 @@
         })
       },
       _getCategoryDetail(type) {
-		    // 1.获取请求的miniWallkey
+        // 1.获取请求的miniWallkey
         const miniWallkey = this.categories[this.currentIndex].miniWallkey;
         // 2.发送请求,传入miniWallkey和type
-		    getCategoryDetail(miniWallkey, type).then(res => {
-		      // 3.将获取的数据保存下来
-		      this.categoryData[this.currentIndex].categoryDetail[type] = res
+        getCategoryDetail(miniWallkey, type).then(res => {
+          // 3.将获取的数据保存下来
+          this.categoryData[this.currentIndex].categoryDetail[type] = res
           this.categoryData = {...this.categoryData}
         })
       },
@@ -121,7 +121,7 @@
         this._getSubcategories(index)
       }
     }
-	}
+  }
 </script>
 
 <style scoped>
@@ -141,7 +141,7 @@
     right: 0;
     top: 44px;
     bottom: 49px;
-
+    overflow: hidden;
     display: flex;
   }
 
@@ -150,3 +150,72 @@
     flex: 1;
   }
 </style>
+
+
+
+
+
+
+<!--<script>-->
+<!--  import BScroll from 'better-scroll'-->
+<!--  import NavBar from 'components/common/navbar/NavBar'-->
+
+<!--  import TabMenu from './childComps/TabMenu'-->
+<!--  import TabContentCategory from './childComps/TabContentCategory'-->
+
+
+<!--  import TabControl from 'components/content/tabControl/TabControl'-->
+<!--  import Scroll from 'components/common/scroll/Scroll'-->
+<!--  import GoodsList from 'components/content/goods/GoodsList'-->
+
+<!--  import {getCategory, getSubcategory, getCategoryDetail} from "network/category";-->
+<!--  import {POP, SELL, NEW} from "common/const";-->
+<!--  import {tabControlMixin} from "@/common/mixin";-->
+
+<!--  export default {-->
+<!--    name: 'Category',-->
+<!--    components: {-->
+<!--      NavBar,-->
+<!--      TabMenu,-->
+<!--      TabControl,-->
+<!--      Scroll,-->
+<!--      TabContentCategory,-->
+<!--      GoodsList-->
+<!--    },-->
+<!--    mixins: [tabControlMixin],-->
+<!--    data() {-->
+<!--      return {-->
+<!--        categories: [],-->
+<!--        categoryData: {-->
+<!--        },-->
+<!--        currentIndex: -1-->
+<!--      }-->
+<!--    },-->
+<!--    //组件创建完之后调用-->
+<!--    mounted() {-->
+<!--      //默认情况下BScroll是不可以实时的监听滚动位置-->
+<!--      //probe 侦测-->
+<!--      //0,1都是不侦测实时的位置-->
+<!--      //2:在手指滚动的过程中侦测，手指离开之后的惯性滚动过程中不侦测-->
+<!--      //3:只要是滚动，都侦测-->
+<!--      // 谁准备滚动就把谁传入进去 (第一个参数一要传入我们要管理的url)-->
+<!--      this.scroll = new BScroll(document.querySelector('.wrapper'),{-->
+<!--        probeType:3,-->
+<!--        pullUpLoad:true-->
+
+<!--      })-->
+<!--      this.scroll.on('scroll',(position)=>{-->
+<!--        // console.log(position);-->
+<!--      })-->
+<!--      this.scroll.on('pullingUp',() =>{-->
+<!--        console.log('上拉');-->
+
+<!--        //等数据请求完成，并且将新的数据展示出来后-->
+<!--        setTimeout(() =>{-->
+<!--          this.scroll.finishPullUp()-->
+<!--        },2000)-->
+<!--      })-->
+<!--    }-->
+<!--  }-->
+
+<!--</script>-->

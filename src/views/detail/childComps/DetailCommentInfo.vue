@@ -28,24 +28,24 @@
 
 <script>
   import {formatDate} from "common/utils";
-  
+
   export default {
-		name: "DetailCommentInfo",
+    name: "DetailCommentInfo",
     props: {
-		  commentInfo: {
-		    type: Object,
+      commentInfo: {
+        type: Object,
         default() {
-		    	return {}
+          return {}
         }
       }
     },
     filters: {
-		  showDate: function (value) {
+      showDate: function (value) {
         let date = new Date(value*1000);
         return formatDate(date, 'yyyy-MM-dd')
       }
     }
-	}
+  }
 </script>
 
 <style scoped>

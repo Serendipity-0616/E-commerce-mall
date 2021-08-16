@@ -1,12 +1,21 @@
 <template>
   <div class="tab-control">
-    <div class="tab-control-item"
-         v-for="(item, index) in titles"
-         :class="{active: currentIndex === index}"
+    <div v-for="(item, index) in titles"
+         class="tab-control-item"
+         :class="{active:index === currentIndex}"
          @click="itemClick(index)">
       <span>{{item}}</span>
     </div>
   </div>
+
+<!--  <div class="tab-control">-->
+<!--    <div class="tab-control-item"-->
+<!--         v-for="(item, index) in titles"-->
+<!--         :class="{active: currentIndex === index}"-->
+<!--         @click="itemClick(index)">-->
+<!--      <span>{{item}}</span>-->
+<!--    </div>-->
+<!--  </div>-->
 </template>
 
 <script>
@@ -16,6 +25,7 @@
       titles: {
         type: Array,
         default() {
+          // return []
           return ['流行', '新款', '精选']
         }
       }
@@ -51,7 +61,7 @@
     padding: 5px;
   }
 
-  .active {
+  .active span{
     color: var(--color-high-text);
   }
 

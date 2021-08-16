@@ -1,11 +1,20 @@
 <template>
-  <swiper ref="swiper" v-if="banners.length">
-    <swiper-item v-for="(item, index) in banners">
-      <a :href="item.link">
-        <img :src="item.image" alt="" @load="imageLoaded">
-      </a>
-    </swiper-item>
-  </swiper>
+<!--  <swiper ref="swiper" v-if="banners.length">-->
+<!--    <swiper-item v-for="(item, index) in banners">-->
+<!--      <a :href="item.link">-->
+<!--        <img :src="item.image" alt="" @load="imageLoaded">-->
+<!--      </a>-->
+<!--    </swiper-item>-->
+<!--  </swiper>-->
+
+    <swiper>
+      <swiper-item v-for="item in banners">
+        <a :href="item.link">
+          <img :src="item.image" alt="" @load="imageLoaded">
+        </a>
+      </swiper-item>
+    </swiper>
+
 </template>
 
 <script>
@@ -16,7 +25,10 @@
     props: {
       banners: {
         type: Array,
-        required: true
+        // required: true
+        default(){
+          return []
+        }
       }
     },
     data() {
