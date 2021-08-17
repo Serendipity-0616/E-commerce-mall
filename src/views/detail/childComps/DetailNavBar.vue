@@ -49,6 +49,11 @@
 </script>
 
 <style scoped>
+  .nav-bar{
+    position: relative;
+    z-index: 99;
+    background-color: #fff;
+  }
   .back {
     margin-top: 12px;
   }
@@ -64,6 +69,6 @@
   }
 
   .title-item.active {
-    color: var(--color-high-text);
+    color: var(--color-high-text)
   }
 </style>
